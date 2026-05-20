@@ -1,6 +1,5 @@
 const connectBtn = document.getElementById("connectBtn");
 const sendBtn = document.getElementById("sendBtn");
-
 const statusText = document.getElementById("status");
 
 let signer;
@@ -14,28 +13,42 @@ const ABI = [
 
 connectBtn.onclick = async () => {
 
-  if (!window.ethereum) {
-    alert("Install MetaMask");
-    return;
+  try {
+
+    if (typeof window.ethereum !== "undefined") {
+
+      await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      const provider =
+        new ethers.providers.Web3Provider(window.ethereum);
+
+      signer = provider.getSigner();
+
+      const address =
+        await signer.getAddress();
+
+      statusText.innerText =
+        "Connected: " +
+        address.slice(0,6) +
+        "..." +
+        address.slice(-4);
+
+    } else {
+
+      alert("MetaMask not detected");
+
+    }
+
+  } catch (err) {
+
+    console.log(err);
+
+    statusText.innerText =
+      "Wallet connection failed";
+
   }
-
-  await ethereum.request({
-    method: "eth_requestAccounts"
-  });
-
-  const provider =
-    new ethers.providers.Web3Provider(window.ethereum);
-
-  signer = provider.getSigner();
-
-  const address =
-    await signer.getAddress();
-
-  statusText.innerText =
-    "Connected: " +
-    address.slice(0,6) +
-    "..." +
-    address.slice(-4);
 };
 
 sendBtn.onclick = async () => {
