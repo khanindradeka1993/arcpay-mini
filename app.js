@@ -1,3 +1,5 @@
+let currentAccount = "";
+
 async function connectWallet() {
 
   if (!window.ethereum) {
@@ -14,13 +16,13 @@ async function connectWallet() {
       method: "eth_requestAccounts"
     });
 
-    const address =
+    currentAccount =
     accounts[0];
 
     const balanceHex =
     await window.ethereum.request({
       method: "eth_getBalance",
-      params: [address, "latest"]
+      params: [currentAccount, "latest"]
     });
 
     const balance =
@@ -34,7 +36,7 @@ async function connectWallet() {
     document
     .getElementById("address")
     .innerText =
-    address;
+    currentAccount;
 
   } catch(err){
 
@@ -46,9 +48,68 @@ async function connectWallet() {
 
 }
 
+async function sendTransaction() {
+
+  const receiver =
+  document.getElementById("receiver").value;
+
+  const amount =
+  document.getElementById("amount").value;
+
+  if (!receiver || !amount) {
+
+    alert("Enter receiver and amount");
+
+    return;
+  }
+
+  try {
+
+    const tx =
+    await window.ethereum.request({
+
+      method: "eth_sendTransaction",
+
+      params: [{
+
+        from: currentAccount,
+
+        to: receiver,
+
+        value:
+        (
+          Number(amount) *
+          1e18
+        ).toString(16)
+
+      }]
+
+    });
+
+    alert("Transaction Sent 🚀");
+
+    console.log(tx);
+
+  } catch(err){
+
+    console.log(err);
+
+    alert("Transaction Failed");
+
+  }
+
+}
+
 document
 .getElementById("connectBtn")
 .addEventListener(
   "click",
   connectWallet
+);
+
+document
+.getElementById("sendBtn")
+.addEventListener(
+  "click",
+  sendTransaction
 );
