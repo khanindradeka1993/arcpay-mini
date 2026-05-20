@@ -1,26 +1,3 @@
-const USDC =
-"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238";
-
-const ABI = [
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "owner",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOf",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "type": "function"
-  }
-];
-
 document
 .getElementById("connectBtn")
 .onclick = async () => {
@@ -46,38 +23,36 @@ document
     const address =
     accounts[0];
 
-    const provider =
-    new ethers.providers.Web3Provider(
-      window.ethereum
-    );
+    const chainId =
+    await window.ethereum.request({
+      method: "eth_chainId"
+    });
 
-    const contract =
-    new ethers.Contract(
-      USDC,
-      ABI,
-      provider
-    );
+    const balanceHex =
+    await window.ethereum.request({
+      method: "eth_getBalance",
+      params: [address, "latest"]
+    });
 
     const balance =
-    await contract.balanceOf(address);
-
-    const formatted =
-    Number(balance) / 1000000;
+    parseInt(balanceHex,16) / 1e18;
 
     status.innerText =
     "Connected: " +
     address.slice(0,6) +
     "..." +
     address.slice(-4) +
-    "\nUSDC Balance: " +
-    formatted;
+    "\nChain ID: " +
+    chainId +
+    "\nBalance: " +
+    balance;
 
-  } catch(err) {
+  } catch(err){
 
     console.log(err);
 
     status.innerText =
-    "Connection Failed";
+    "Wallet connection failed";
 
   }
 
