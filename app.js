@@ -1,16 +1,5 @@
 let currentAccount = "";
 
-const USDC_ADDRESS =
-"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238";
-
-const ABI = [
-
-  "function balanceOf(address owner) view returns (uint256)",
-
-  "function transfer(address to, uint amount) returns (bool)"
-
-];
-
 async function connectWallet() {
 
   if (!window.ethereum) {
@@ -30,30 +19,19 @@ async function connectWallet() {
     currentAccount =
     accounts[0];
 
-    const provider =
-    new ethers.providers.Web3Provider(
-      window.ethereum
-    );
-
-    const contract =
-    new ethers.Contract(
-      USDC_ADDRESS,
-      ABI,
-      provider
-    );
+    const balanceHex =
+    await window.ethereum.request({
+      method: "eth_getBalance",
+      params: [currentAccount, "latest"]
+    });
 
     const balance =
-    await contract.balanceOf(
-      currentAccount
-    );
-
-    const formatted =
-    Number(balance) / 1000000;
+    parseInt(balanceHex,16) / 1e18;
 
     document
     .getElementById("balance")
     .innerText =
-    formatted.toFixed(2);
+    balance.toFixed(4);
 
     document
     .getElementById("address")
@@ -70,7 +48,7 @@ async function connectWallet() {
 
 }
 
-async function sendUSDC() {
+async function sendTransaction() {
 
   const receiver =
   document.getElementById("receiver").value;
@@ -87,38 +65,30 @@ async function sendUSDC() {
 
   try {
 
-    const provider =
-    new ethers.providers.Web3Provider(
-      window.ethereum
-    );
-
-    const signer =
-    provider.getSigner();
-
-    const contract =
-    new ethers.Contract(
-      USDC_ADDRESS,
-      ABI,
-      signer
-    );
-
     const tx =
-    await contract.transfer(
+    await window.ethereum.request({
 
-      receiver,
+      method: "eth_sendTransaction",
 
-      ethers.utils.parseUnits(
-        amount,
-        6
-      )
+      params: [{
 
-    );
+        from: currentAccount,
 
-    alert("Transaction Submitted 🚀");
+        to: receiver,
 
-    await tx.wait();
+        value:
+        (
+          Number(amount) *
+          1e18
+        ).toString(16)
 
-    alert("USDC Sent Successfully ✅");
+      }]
+
+    });
+
+    alert("Transaction Sent 🚀");
+
+    console.log(tx);
 
   } catch(err){
 
@@ -141,5 +111,5 @@ document
 .getElementById("sendBtn")
 .addEventListener(
   "click",
-  sendUSDC
+  sendTransaction
 );
