@@ -1,36 +1,36 @@
-const connectBtn =
-document.getElementById("connectBtn");
+document
+.getElementById("connectBtn")
+.onclick = async () => {
 
-const statusText =
-document.getElementById("status");
-
-connectBtn.onclick = async () => {
+  const status =
+  document.getElementById("status");
 
   try {
 
-    if (!window.ethereum) {
+    if (window.ethereum) {
 
-      statusText.innerText =
-      "MetaMask not found";
+      const accounts =
+      await window.ethereum.request({
+        method: "eth_requestAccounts"
+      });
 
-      return;
+      status.innerText =
+      "Connected: " + accounts[0];
+
+    } else {
+
+      status.innerText =
+      "MetaMask not detected";
+
     }
 
-    const accounts =
-    await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
+  } catch (e) {
 
-    statusText.innerText =
-    "Connected: " +
-    accounts[0];
+    console.log(e);
 
-  } catch (err) {
-
-    console.log(err);
-
-    statusText.innerText =
-    "Wallet connection failed";
+    status.innerText =
+    "Connection failed";
 
   }
+
 };
