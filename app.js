@@ -1,12 +1,8 @@
 async function connectWallet() {
 
-  const status =
-  document.getElementById("status");
-
   if (!window.ethereum) {
 
-    status.innerText =
-    "MetaMask not found";
+    alert("MetaMask not found");
 
     return;
   }
@@ -30,18 +26,21 @@ async function connectWallet() {
     const balance =
     parseInt(balanceHex,16) / 1e18;
 
-    status.innerText =
-    "Connected:\n" +
-    address +
-    "\n\nBalance:\n" +
+    document
+    .getElementById("balance")
+    .innerText =
     balance.toFixed(4);
 
-  } catch (error) {
+    document
+    .getElementById("address")
+    .innerText =
+    address;
 
-    console.log(error);
+  } catch(err){
 
-    status.innerText =
-    "Connection Failed";
+    console.log(err);
+
+    alert("Connection Failed");
 
   }
 
