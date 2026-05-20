@@ -33,6 +33,16 @@
       margin-top:20px;
     }
 
+    input{
+      width:100%;
+      padding:15px;
+      border:none;
+      border-radius:14px;
+      margin-top:15px;
+      font-size:16px;
+      box-sizing:border-box;
+    }
+
     .balance{
       font-size:40px;
       font-weight:bold;
@@ -62,7 +72,7 @@
 <div class="card">
 
   <div class="label">
-    USDC Balance
+    Wallet Balance
   </div>
 
   <div
@@ -81,6 +91,22 @@
 
 <button id="connectBtn">
 Connect Wallet
+</button>
+
+<input
+type="text"
+id="receiver"
+placeholder="Receiver Address"
+/>
+
+<input
+type="number"
+id="amount"
+placeholder="Amount"
+/>
+
+<button id="sendBtn">
+Send
 </button>
 
 <script src="app.js"></script>
