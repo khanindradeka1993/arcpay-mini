@@ -1,5 +1,29 @@
 let currentAccount = "";
 
+const USDC_ADDRESS =
+"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238";
+
+const ABI = [
+
+  "function balanceOf(address owner) view returns (uint256)",
+
+  "function transfer(address to, uint amount) returns (bool)"
+
+];
+
+const users = {
+
+  "vitalik":
+  "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+
+  "alice":
+  "0x8ba1f109551bD432803012645Ac136ddd64DBA72",
+
+  "khanindra":
+  "0x2b892d334C8cC23B995CB46a0c2cf3C97A6c1e53"
+
+};
+
 async function connectWallet() {
 
   if (!window.ethereum) {
@@ -19,19 +43,30 @@ async function connectWallet() {
     currentAccount =
     accounts[0];
 
-    const balanceHex =
-    await window.ethereum.request({
-      method: "eth_getBalance",
-      params: [currentAccount, "latest"]
-    });
+    const provider =
+    new ethers.providers.Web3Provider(
+      window.ethereum
+    );
+
+    const contract =
+    new ethers.Contract(
+      USDC_ADDRESS,
+      ABI,
+      provider
+    );
 
     const balance =
-    parseInt(balanceHex,16) / 1e18;
+    await contract.balanceOf(
+      currentAccount
+    );
+
+    const formatted =
+    Number(balance) / 1000000;
 
     document
     .getElementById("balance")
     .innerText =
-    balance.toFixed(4);
+    formatted.toFixed(2);
 
     document
     .getElementById("address")
@@ -48,9 +83,9 @@ async function connectWallet() {
 
 }
 
-async function sendTransaction() {
+async function sendUSDC() {
 
-  const receiver =
+  let receiver =
   document.getElementById("receiver").value;
 
   const amount =
@@ -58,37 +93,63 @@ async function sendTransaction() {
 
   if (!receiver || !amount) {
 
-    alert("Enter receiver and amount");
+    alert("Enter username and amount");
 
     return;
   }
 
+  receiver =
+  receiver.replace("@","");
+
+  if (users[receiver]) {
+
+    receiver =
+    users[receiver];
+
+  } else {
+
+    alert("Username not found");
+
+    return;
+
+  }
+
   try {
 
+    const provider =
+    new ethers.providers.Web3Provider(
+      window.ethereum
+    );
+
+    const signer =
+    provider.getSigner();
+
+    const contract =
+    new ethers.Contract(
+      USDC_ADDRESS,
+      ABI,
+      signer
+    );
+
     const tx =
-    await window.ethereum.request({
+    await contract.transfer(
 
-      method: "eth_sendTransaction",
+      receiver,
 
-      params: [{
+      ethers.utils.parseUnits(
+        amount,
+        6
+      )
 
-        from: currentAccount,
+    );
 
-        to: receiver,
+    alert("Payment Sent 🚀");
 
-        value:
-        (
-          Number(amount) *
-          1e18
-        ).toString(16)
+    await tx.wait();
 
-      }]
+    alert("USDC Sent Successfully ✅");
 
-    });
-
-    alert("Transaction Sent 🚀");
-
-    console.log(tx);
+    connectWallet();
 
   } catch(err){
 
@@ -111,5 +172,5 @@ document
 .getElementById("sendBtn")
 .addEventListener(
   "click",
-  sendTransaction
+  sendUSDC
 );
