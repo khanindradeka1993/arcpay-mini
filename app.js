@@ -26,17 +26,18 @@ const users = {
 
 async function connectWallet() {
 
-  if (!window.ethereum) {
-
-    alert("MetaMask not found");
-
-    return;
-  }
-
   try {
 
+    if (!window.ethereum) {
+
+      alert("MetaMask not found");
+
+      return;
+
+    }
+
     const accounts =
-    await window.ethereum.request({
+    await ethereum.request({
       method: "eth_requestAccounts"
     });
 
@@ -61,19 +62,22 @@ async function connectWallet() {
     );
 
     const formatted =
-    Number(balance) / 1000000;
+    ethers.utils.formatUnits(
+      balance,
+      6
+    );
 
     document
     .getElementById("balance")
     .innerText =
-    formatted.toFixed(2);
+    formatted;
 
     document
     .getElementById("address")
     .innerText =
     currentAccount;
 
-  } catch(err){
+  } catch(err) {
 
     console.log(err);
 
@@ -85,36 +89,41 @@ async function connectWallet() {
 
 async function sendUSDC() {
 
-  let receiver =
-  document.getElementById("receiver").value;
+  try {
 
-  const amount =
-  document.getElementById("amount").value;
+    let receiver =
+    document
+    .getElementById("receiver")
+    .value;
 
-  if (!receiver || !amount) {
+    const amount =
+    document
+    .getElementById("amount")
+    .value;
 
-    alert("Enter username and amount");
+    if (!receiver || !amount) {
 
-    return;
-  }
+      alert("Enter username and amount");
 
-  receiver =
-  receiver.replace("@","");
+      return;
 
-  if (users[receiver]) {
+    }
 
     receiver =
-    users[receiver];
+    receiver.replace("@","");
 
-  } else {
+    if (users[receiver]) {
 
-    alert("Username not found");
+      receiver =
+      users[receiver];
 
-    return;
+    } else {
 
-  }
+      alert("Username not found");
 
-  try {
+      return;
+
+    }
 
     const provider =
     new ethers.providers.Web3Provider(
@@ -143,7 +152,7 @@ async function sendUSDC() {
 
     );
 
-    alert("Payment Sent 🚀");
+    alert("Transaction Submitted 🚀");
 
     await tx.wait();
 
@@ -151,7 +160,7 @@ async function sendUSDC() {
 
     connectWallet();
 
-  } catch(err){
+  } catch(err) {
 
     console.log(err);
 
@@ -163,14 +172,10 @@ async function sendUSDC() {
 
 document
 .getElementById("connectBtn")
-.addEventListener(
-  "click",
-  connectWallet
-);
+.onclick =
+connectWallet;
 
 document
 .getElementById("sendBtn")
-.addEventListener(
-  "click",
-  sendUSDC
-);
+.onclick =
+sendUSDC;
