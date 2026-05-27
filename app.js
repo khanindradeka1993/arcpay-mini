@@ -1,181 +1,164 @@
-let currentAccount = "";
+import React, { useState } from "react";
 
-const USDC_ADDRESS =
-"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238";
+export default function App() {
+  const [walletAddress, setWalletAddress] = useState("");
+  const [balance, setBalance] = useState("0.00");
+  const [username, setUsername] = useState("");
+  const [amount, setAmount] = useState("");
 
-const ABI = [
+  const connectWallet = async () => {
+    try {
+      // Check wallet provider
+      if (!window.ethereum) {
+        alert("Open this app inside MetaMask or Rabby browser");
+        return;
+      }
 
-  "function balanceOf(address owner) view returns (uint256)",
+      // Request account
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
 
-  "function transfer(address to, uint amount) returns (bool)"
+      const account = accounts[0];
 
-];
+      setWalletAddress(account);
 
-const users = {
+      // Get balance
+      const balanceWei = await window.ethereum.request({
+        method: "eth_getBalance",
+        params: [account, "latest"],
+      });
 
-  "vitalik":
-  "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+      const balanceEth =
+        parseInt(balanceWei, 16) / Math.pow(10, 18);
 
-  "alice":
-  "0x8ba1f109551bD432803012645Ac136ddd64DBA72",
+      setBalance(balanceEth.toFixed(4));
 
-  "khanindra":
-  "0x2b892d334C8cC23B995CB46a0c2cf3C97A6c1e53"
+      alert("Wallet Connected Successfully");
+    } catch (error) {
+      console.error(error);
+      alert(error.message || "Connection Failed");
+    }
+  };
 
-};
-
-async function connectWallet() {
-
-  try {
-
-    if (!window.ethereum) {
-
-      alert("MetaMask not found");
-
+  const sendUSDC = async () => {
+    if (!walletAddress) {
+      alert("Connect wallet first");
       return;
-
     }
 
-    const accounts =
-    await ethereum.request({
-      method: "eth_requestAccounts"
-    });
-
-    currentAccount =
-    accounts[0];
-
-    const provider =
-    new ethers.providers.Web3Provider(
-      window.ethereum
-    );
-
-    const contract =
-    new ethers.Contract(
-      USDC_ADDRESS,
-      ABI,
-      provider
-    );
-
-    const balance =
-    await contract.balanceOf(
-      currentAccount
-    );
-
-    const formatted =
-    ethers.utils.formatUnits(
-      balance,
-      6
-    );
-
-    document
-    .getElementById("balance")
-    .innerText =
-    formatted;
-
-    document
-    .getElementById("address")
-    .innerText =
-    currentAccount;
-
-  } catch(err) {
-
-    console.log(err);
-
-    alert("Connection Failed");
-
-  }
-
-}
-
-async function sendUSDC() {
-
-  try {
-
-    let receiver =
-    document
-    .getElementById("receiver")
-    .value;
-
-    const amount =
-    document
-    .getElementById("amount")
-    .value;
-
-    if (!receiver || !amount) {
-
+    if (!username || !amount) {
       alert("Enter username and amount");
-
       return;
-
     }
 
-    receiver =
-    receiver.replace("@","");
-
-    if (users[receiver]) {
-
-      receiver =
-      users[receiver];
-
-    } else {
-
-      alert("Username not found");
-
-      return;
-
-    }
-
-    const provider =
-    new ethers.providers.Web3Provider(
-      window.ethereum
+    alert(
+      `Demo Payment Sent\nTo: ${username}\nAmount: ${amount} USDC`
     );
+  };
 
-    const signer =
-    provider.getSigner();
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#020817",
+        color: "white",
+        padding: "20px",
+        fontFamily: "Arial",
+      }}
+    >
+      <h1 style={{ fontSize: "32px", marginBottom: "20px" }}>
+        ArcPay Mini
+      </h1>
 
-    const contract =
-    new ethers.Contract(
-      USDC_ADDRESS,
-      ABI,
-      signer
-    );
+      {/* Wallet Card */}
+      <div
+        style={{
+          background: "#0f172a",
+          padding: "20px",
+          borderRadius: "16px",
+          marginBottom: "20px",
+        }}
+      >
+        <p style={{ color: "#94a3b8" }}>Wallet Balance</p>
 
-    const tx =
-    await contract.transfer(
+        <h2 style={{ fontSize: "36px", margin: "10px 0" }}>
+          {balance}
+        </h2>
 
-      receiver,
+        <p style={{ fontSize: "12px", color: "#64748b" }}>
+          {walletAddress
+            ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`
+            : "Wallet not connected"}
+        </p>
+      </div>
 
-      ethers.utils.parseUnits(
-        amount,
-        6
-      )
+      {/* Connect Button */}
+      <button
+        onClick={connectWallet}
+        style={{
+          width: "100%",
+          background: "#2563eb",
+          color: "white",
+          border: "none",
+          padding: "14px",
+          borderRadius: "12px",
+          fontSize: "16px",
+          marginBottom: "16px",
+          cursor: "pointer",
+        }}
+      >
+        Connect Wallet
+      </button>
 
-    );
+      {/* Username Input */}
+      <input
+        type="text"
+        placeholder="@username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        style={{
+          width: "100%",
+          padding: "14px",
+          borderRadius: "12px",
+          border: "none",
+          marginBottom: "16px",
+          background: "#e5e7eb",
+        }}
+      />
 
-    alert("Transaction Submitted 🚀");
+      {/* Amount Input */}
+      <input
+        type="number"
+        placeholder="Amount"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        style={{
+          width: "100%",
+          padding: "14px",
+          borderRadius: "12px",
+          border: "none",
+          marginBottom: "16px",
+          background: "#e5e7eb",
+        }}
+      />
 
-    await tx.wait();
-
-    alert("USDC Sent Successfully ✅");
-
-    connectWallet();
-
-  } catch(err) {
-
-    console.log(err);
-
-    alert("Transaction Failed");
-
-  }
-
+      {/* Send Button */}
+      <button
+        onClick={sendUSDC}
+        style={{
+          width: "100%",
+          background: "#2563eb",
+          color: "white",
+          border: "none",
+          padding: "14px",
+          borderRadius: "12px",
+          fontSize: "16px",
+          cursor: "pointer",
+        }}
+      >
+        Send USDC
+      </button>
+    </div>
+  );
 }
-
-document
-.getElementById("connectBtn")
-.onclick =
-connectWallet;
-
-document
-.getElementById("sendBtn")
-.onclick =
-sendUSDC;
