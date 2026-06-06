@@ -66,3 +66,10 @@ copyBtn.addEventListener("click", async () => {
 
   alert("Wallet address copied!");
 });
+const faucetBtn = document.getElementById("faucetBtn");
+
+faucetBtn.addEventListener("click", () => {
+  alert(
+    "Arc Testnet Faucet\n\nVisit the Arc faucet to claim testnet USDC."
+  );
+});
