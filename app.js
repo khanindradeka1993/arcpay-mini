@@ -69,5 +69,4 @@ copyBtn.addEventListener("click", async () => {
 const faucetBtn = document.getElementById("faucetBtn");
 
 faucetBtn.addEventListener("click", () => {
-  window.open("https://faucet.arc.xyz", "_blank");
-});
+  window.open("https://faucet.circle.com", "_blank");
