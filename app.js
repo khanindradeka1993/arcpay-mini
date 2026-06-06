@@ -69,7 +69,5 @@ copyBtn.addEventListener("click", async () => {
 const faucetBtn = document.getElementById("faucetBtn");
 
 faucetBtn.addEventListener("click", () => {
-  alert(
-    "Arc Testnet Faucet\n\nVisit the Arc faucet to claim testnet USDC."
-  );
+  window.open("https://faucet.arc.xyz", "_blank");
 });
