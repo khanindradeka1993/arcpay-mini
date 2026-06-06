@@ -44,3 +44,14 @@ receiveBtn.addEventListener("click", async () => {
     alert("Unable to fetch wallet address");
   }
 });
+const sendBtn = document.getElementById("sendBtn");
+
+sendBtn.addEventListener("click", () => {
+  alert(
+    "ArcPay Lite\n\n" +
+    "Coming Soon:\n\n" +
+    "• Username Payments\n" +
+    "• USDC Transfers\n" +
+    "• Arc Testnet Support"
+  );
+});
