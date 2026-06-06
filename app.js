@@ -66,3 +66,10 @@ copyBtn.addEventListener("click", async () => {
 
   alert("Wallet address copied!");
 });
+const faucetBtn = document.getElementById("faucetBtn");
+
+if (faucetBtn) {
+  faucetBtn.addEventListener("click", () => {
+    window.open("https://faucet.circle.com", "_blank");
+  });
+}
