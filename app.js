@@ -28,20 +28,19 @@ connectBtn.addEventListener("click", async () => {
 const receiveBtn = document.getElementById("receiveBtn");
 
 receiveBtn.addEventListener("click", async () => {
-  if (!window.ethereum) {
-    alert("Connect wallet first");
-    return;
+  try {
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts"
+    });
+
+    const address = accounts[0];
+
+    alert(
+      "Your Wallet Address:\n\n" + address
+    );
+
+  } catch (err) {
+    console.error(err);
+    alert("Unable to fetch wallet address");
   }
-
-  const accounts = await window.ethereum.request({
-    method: "eth_requestAccounts"
-  });
-
-  const address = accounts[0];
-
-  navigator.clipboard.writeText(address);
-
-  alert(
-    "Wallet address copied:\n\n" + address
-  );
 });
