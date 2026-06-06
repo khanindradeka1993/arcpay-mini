@@ -55,3 +55,14 @@ sendBtn.addEventListener("click", () => {
     "• Arc Testnet Support"
   );
 });
+const copyBtn = document.getElementById("copyBtn");
+
+copyBtn.addEventListener("click", async () => {
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts"
+  });
+
+  navigator.clipboard.writeText(accounts[0]);
+
+  alert("Wallet address copied!");
+});
