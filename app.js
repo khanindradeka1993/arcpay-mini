@@ -73,3 +73,9 @@ if (faucetBtn) {
     window.location.href = "https://faucet.circle.com";
   });
 }
+const refreshBtn = document.getElementById("refreshBtn");
+const balanceEl = document.getElementById("balance");
+
+refreshBtn.addEventListener("click", async () => {
+  alert("Balance refresh coming soon!");
+});
