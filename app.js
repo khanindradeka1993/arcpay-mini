@@ -84,7 +84,7 @@ refreshBtn.addEventListener("click", async () => {
 
     const address = accounts[0];
 
-    const provider = new ethers.BrowserProvider(window.ethereum);
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     const usdcContract = new ethers.Contract(
       "0x3600000000000000000000000000000000000000",
