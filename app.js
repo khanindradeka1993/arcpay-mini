@@ -99,8 +99,6 @@ refreshBtn.addEventListener("click", async () => {
     balanceEl.innerText =
       (Number(balance) / 1000000).toFixed(2) + " USDC";
 
-  catch (err) {
-  console.error(err);
 catch (err) {
   console.error(err);
   alert(JSON.stringify(err));
