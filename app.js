@@ -70,6 +70,6 @@ const faucetBtn = document.getElementById("faucetBtn");
 
 if (faucetBtn) {
   faucetBtn.addEventListener("click", () => {
-    alert("Faucet button clicked!");
+    window.location.href = "https://faucet.circle.com";
   });
 }
