@@ -79,3 +79,4 @@ const balanceEl = document.getElementById("balance");
 refreshBtn.addEventListener("click", async () => {
   alert("Balance refresh coming soon!");
 });
+// ArcPay Stable v0.1
