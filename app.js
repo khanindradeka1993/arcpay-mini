@@ -101,4 +101,9 @@ refreshBtn.addEventListener("click", async () => {
 
   catch (err) {
   console.error(err);
+catch (err) {
+  console.error(err);
   alert(JSON.stringify(err));
+}
+});
+  
