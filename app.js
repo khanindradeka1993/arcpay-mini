@@ -1,6 +1,14 @@
 const connectBtn = document.getElementById("connectBtn");
 const addressEl = document.getElementById("address");
 
+const USDC_ADDRESS =
+  "0x3600000000000000000000000000000000000000";
+
+const USDC_ABI = [
+  "function balanceOf(address owner) view returns (uint256)",
+  "function transfer(address to, uint256 amount) returns (bool)",
+  "function decimals() view returns (uint8)"
+];
 connectBtn.addEventListener("click", async () => {
   try {
     if (!window.ethereum) {
@@ -95,13 +103,18 @@ refreshBtn.addEventListener("click", async () => {
 
     const address = accounts[0];
 
-    const balance = await provider.getBalance(address);
+    const usdc = new ethers.Contract(
+  USDC_ADDRESS,
+  USDC_ABI,
+  provider
+);
 
-    const balanceInEth = ethers.utils.formatEther(balance);
+const balance =
+  await usdc.balanceOf(address);
 
-    balanceEl.innerText =
-      Number(balanceInEth).toFixed(4) + " ARC";
-
+balanceEl.innerText =
+  (Number(balance) / 1000000).toFixed(2) +
+  " USDC";
   } catch (err) {
     console.error(err);
     alert("Unable to fetch balance");
