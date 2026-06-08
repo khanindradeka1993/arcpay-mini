@@ -79,4 +79,31 @@ const balanceEl = document.getElementById("balance");
 refreshBtn.addEventListener("click", async () => {
   alert("Balance refresh coming soon!");
 });
-// ArcPay Stable v0.1
+refreshBtn.addEventListener("click", async () => {
+  try {
+    if (!window.ethereum) {
+      alert("Please connect wallet first");
+      return;
+    }
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    const accounts = await provider.send(
+      "eth_requestAccounts",
+      []
+    );
+
+    const address = accounts[0];
+
+    const balance = await provider.getBalance(address);
+
+    const balanceInEth = ethers.utils.formatEther(balance);
+
+    balanceEl.innerText =
+      Number(balanceInEth).toFixed(4) + " ARC";
+
+  } catch (err) {
+    console.error(err);
+    alert("Unable to fetch balance");
+  }
+});
