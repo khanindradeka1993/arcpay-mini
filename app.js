@@ -57,14 +57,39 @@ receiveBtn.addEventListener("click", async () => {
 
 const sendBtn = document.getElementById("sendBtn");
 
-sendBtn.addEventListener("click", () => {
-  alert(
-    "ArcPay Lite\n\n" +
-    "Coming Soon:\n\n" +
-    "• Username Payments\n" +
-    "• USDC Transfers\n" +
-    "• Arc Testnet Support"
-  );
+sendBtn.addEventListener("click", async () => {
+  try {
+    const recipient = prompt("Enter recipient wallet address:");
+
+    if (!recipient) return;
+
+    const amount = prompt("Enter USDC amount:");
+
+    if (!amount) return;
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+    const usdc = new ethers.Contract(
+      USDC_ADDRESS,
+      USDC_ABI,
+      signer
+    );
+
+    const tx = await usdc.transfer(
+      recipient,
+      ethers.utils.parseUnits(amount, 6)
+    );
+
+    alert("Transaction submitted!");
+
+    await tx.wait();
+
+    alert("USDC sent successfully!");
+  } catch (err) {
+    console.error(err);
+    alert("Transfer failed");
+  }
 });
 const copyBtn = document.getElementById("copyBtn");
 
