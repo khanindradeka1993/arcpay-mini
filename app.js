@@ -47,17 +47,6 @@ receiveBtn.addEventListener("click", async () => {
   }
 });
 
-    const address = accounts[0];
-
-    alert(
-      "Your Wallet Address:\n\n" + address
-    );
-
-  } catch (err) {
-    console.error(err);
-    alert("Unable to fetch wallet address");
-  }
-});
 const sendBtn = document.getElementById("sendBtn");
 
 sendBtn.addEventListener("click", () => {
