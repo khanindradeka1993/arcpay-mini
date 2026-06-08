@@ -80,9 +80,6 @@ const refreshBtn = document.getElementById("refreshBtn");
 const balanceEl = document.getElementById("balance");
 
 refreshBtn.addEventListener("click", async () => {
-  alert("Balance refresh coming soon!");
-});
-refreshBtn.addEventListener("click", async () => {
   try {
     if (!window.ethereum) {
       alert("Please connect wallet first");
