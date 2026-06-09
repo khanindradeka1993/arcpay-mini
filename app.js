@@ -1,6 +1,6 @@
 const connectBtn = document.getElementById("connectBtn");
 const addressEl = document.getElementById("address");
-
+const activityEl = document.getElementById("activity");
 const USDC_ADDRESS =
   "0x3600000000000000000000000000000000000000";
 
@@ -82,7 +82,11 @@ sendBtn.addEventListener("click", async () => {
     );
 
     alert("Transaction submitted!");
-
+activityEl.innerHTML =
+  "Sent " + amount + " USDC<br>" +
+  "To: " + recipient.substring(0, 6) + "..." +
+  recipient.substring(recipient.length - 4) +
+  "<br>Time: " + new Date().toLocaleString();
     await tx.wait();
 
     alert("USDC sent successfully!");
