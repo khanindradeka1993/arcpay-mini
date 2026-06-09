@@ -28,7 +28,13 @@ connectBtn.addEventListener("click", async () => {
       address.substring(0, 6) +
       "..." +
       address.substring(address.length - 4);
+statusText.innerText = "Connected";
 
+walletText.innerText =
+  address.substring(0, 6) +
+  "..." +
+  address.substring(address.length - 4);
+    
     connectBtn.innerText = "Connected";
   } catch (err) {
     console.error(err);
