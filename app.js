@@ -1,3 +1,5 @@
+const statusText = document.getElementById("statusText");
+const walletText = document.getElementById("walletText");
 const connectBtn = document.getElementById("connectBtn");
 const addressEl = document.getElementById("address");
 const activityEl = document.getElementById("activity");
