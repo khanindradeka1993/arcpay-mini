@@ -51,19 +51,24 @@ receiveBtn.addEventListener("click", async () => {
 
     const address = accounts[0];
 
-    alert(
-      "Receive ARC\n\n" +
-      "Wallet Address:\n\n" +
-      address
-    );
+    
+document.getElementById("qrContainer").style.display = "block";
 
-  } catch (err) {
-    console.error(err);
-    alert("Unable to fetch wallet address");
-  }
+document.getElementById("qrcode").innerHTML = "";
+
+new QRCode(document.getElementById("qrcode"), {
+  text: address,
+  width: 180,
+  height: 180
 });
 
-const sendBtn = document.getElementById("sendBtn");
+document.getElementById("qrAddress").innerText = address;
+} catch (err) {
+  console.error(err);
+  alert("Unable to fetch wallet address");
+}
+});
+    const sendBtn = document.getElementById("sendBtn");
 
 sendBtn.addEventListener("click", async () => {
   try {
