@@ -51,8 +51,15 @@ receiveBtn.addEventListener("click", async () => {
 
     const address = accounts[0];
 
-    
-document.getElementById("qrContainer").style.display = "block";
+
+    const qrContainer = document.getElementById("qrContainer");
+
+if (qrContainer.style.display === "block") {
+    qrContainer.style.display = "none";
+    return;
+}
+
+qrContainer.style.display = "block";
 
 document.getElementById("qrcode").innerHTML = "";
 
