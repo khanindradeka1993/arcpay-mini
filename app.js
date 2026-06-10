@@ -169,3 +169,52 @@ balanceEl.innerText =
     alert("Unable to fetch balance");
   }
 });
+const scanBtn = document.getElementById("scanBtn");
+
+if (scanBtn) {
+  scanBtn.addEventListener("click", () => {
+    const scannerContainer = document.getElementById("scannerContainer");
+
+    if (scannerContainer.style.display === "block") {
+      scannerContainer.style.display = "none";
+      return;
+    }
+
+    scannerContainer.style.display = "block";
+
+    const html5QrCode = new Html5Qrcode("reader");
+
+    html5QrCode.start(
+      { facingMode: "environment" },
+      {
+        fps: 10,
+        qrbox: 250
+      },
+      (decodedText) => {
+        html5QrCode.stop();
+        scannerContainer.style.display = "none";
+
+        const recipient = prompt(
+          "Recipient address detected:",
+          decodedText
+        );
+
+        if (recipient) {
+          const amount = prompt("Enter USDC amount:");
+
+          if (amount) {
+            alert(
+              "Next step: we'll connect this scanned address directly to the Send flow!"
+            );
+          }
+        }
+      },
+      (errorMessage) => {
+        // Ignore scan errors
+      }
+    ).catch((err) => {
+      alert("Camera access failed.");
+      console.error(err);
+    });
+  });
+}
