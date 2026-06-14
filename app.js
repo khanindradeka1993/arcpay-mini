@@ -115,6 +115,7 @@ activityEl.innerHTML =
     await tx.wait();
 
     alert("USDC sent successfully!");
+ scannedAddress = "";
   } catch (err) {
     console.error(err);
     alert("Transfer failed");
