@@ -3,6 +3,7 @@ const walletText = document.getElementById("walletText");
 const connectBtn = document.getElementById("connectBtn");
 const addressEl = document.getElementById("address");
 const activityEl = document.getElementById("activity");
+let scannedAddress = "";
 const USDC_ADDRESS =
   "0x3600000000000000000000000000000000000000";
 
