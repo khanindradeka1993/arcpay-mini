@@ -195,20 +195,15 @@ if (scanBtn) {
         html5QrCode.stop();
         scannerContainer.style.display = "none";
 
-        const recipient = prompt(
-          "Recipient address detected:",
-          decodedText
-        );
+        scannedAddress = decodedText;
 
-        if (recipient) {
-          const amount = prompt("Enter USDC amount:");
-
-          if (amount) {
-            alert(
-              "Next step: we'll connect this scanned address directly to the Send flow!"
-            );
-          }
-        }
+alert(
+  "✅ Recipient address scanned successfully!\n\n" +
+  scannedAddress.substring(0, 6) +
+  "..." +
+  scannedAddress.substring(scannedAddress.length - 4) +
+  "\n\nNow tap the Send button to continue."
+);
       },
       (errorMessage) => {
         // Ignore scan errors
