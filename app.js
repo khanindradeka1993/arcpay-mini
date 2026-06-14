@@ -80,9 +80,13 @@ document.getElementById("qrAddress").innerText = address;
 
 sendBtn.addEventListener("click", async () => {
   try {
-    const recipient = prompt("Enter recipient wallet address:");
+    let recipient = scannedAddress;
 
-    if (!recipient) return;
+if (!recipient) {
+  recipient = prompt("Enter recipient wallet address:");
+}
+
+if (!recipient) return;
 
     const amount = prompt("Enter USDC amount:");
 
