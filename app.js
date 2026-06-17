@@ -6,6 +6,12 @@ const activityEl = document.getElementById("activity");
 let scannedAddress = "";
 const USDC_ADDRESS =
   "0x3600000000000000000000000000000000000000";
+const REGISTRY_ADDRESS =
+"0xCF5d59A9d810c0f7FF158128d691fC5Dd0D66a83";
+
+const REGISTRY_ABI = [
+  "function getAddress(string memory username) view returns(address)"
+];
 
 const USDC_ABI = [
   "function balanceOf(address owner) view returns (uint256)",
