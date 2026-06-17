@@ -89,10 +89,29 @@ sendBtn.addEventListener("click", async () => {
     let recipient = scannedAddress;
 
 if (!recipient) {
-  recipient = prompt("Enter recipient wallet address:");
+  recipient = prompt("Enter recipient wallet address or username:");
 }
 
 if (!recipient) return;
+
+if (!recipient.startsWith("0x")) {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+  const registry = new ethers.Contract(
+    REGISTRY_ADDRESS,
+    REGISTRY_ABI,
+    provider
+  );
+
+  recipient = await registry.getAddress(recipient);
+
+  if (
+    recipient === "0x0000000000000000000000000000000000000000"
+  ) {
+    alert("Username not found");
+    return;
+  }
+}
 
     const amount = prompt(
 "Send USDC\n\nRecipient: " +
