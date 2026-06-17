@@ -88,7 +88,13 @@ if (!recipient) {
 
 if (!recipient) return;
 
-    const amount = prompt("Enter USDC amount:");
+    const amount = prompt(
+"Send USDC\n\nRecipient: " +
+recipient.substring(0,6) +
+"..." +
+recipient.substring(recipient.length-4) +
+"\n\nEnter amount:"
+);
 
     if (!amount) return;
 
