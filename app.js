@@ -66,8 +66,8 @@ document.getElementById("qrcode").innerHTML = "";
 
 new QRCode(document.getElementById("qrcode"), {
   text: address,
-  width: 180,
-  height: 180
+  width: 300,
+height: 300
 });
 
 document.getElementById("qrAddress").innerText = address;
