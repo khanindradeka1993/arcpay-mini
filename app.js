@@ -201,7 +201,12 @@ if (scanBtn) {
         scannerContainer.style.display = "none";
 
         scannedAddress = decodedText;
-
+document.getElementById("recipientText").innerText =
+"Recipient: " +
+decodedText.substring(0,6) +
+"..." +
+decodedText.substring(decodedText.length - 4);
+        
 alert(
   "✅ Recipient address scanned successfully!\n\n" +
   scannedAddress.substring(0, 6) +
