@@ -95,37 +95,6 @@ if (!recipient) {
 
 if (!recipient) return;
 
-if (!recipient.startsWith("0x")) {
-
-  const response = await fetch(
-    `https://api.neynar.com/v2/farcaster/user/search?q=${recipient}&limit=1`,
-    {
-      headers: {
-        "api_key": NEYNAR_API_KEY
-      }
-    }
-  );
-const text = await response.text();
-alert("Status: " + response.status + "\n\n" + text);
-return;
-  
-  const data = await response.json();
-
-  if (!data.result.users.length) {
-    alert("Farcaster username not found");
-    return;
-  }
-
-  const user = data.result.users[0];
-
-  if (!user.verified_addresses.eth_addresses.length) {
-    alert("No wallet linked to this Farcaster account");
-    return;
-  }
-
-  recipient = user.verified_addresses.eth_addresses[0];
-}
-
     const amount = prompt(
 "Send USDC\n\nRecipient: " +
 recipient.substring(0,6) +
