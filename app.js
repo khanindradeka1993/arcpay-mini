@@ -105,7 +105,8 @@ if (!recipient.startsWith("0x")) {
       }
     }
   );
-
+alert("Status: " + response.status);
+  
   const data = await response.json();
 
   if (!data.result.users.length) {
