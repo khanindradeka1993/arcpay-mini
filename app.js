@@ -105,7 +105,9 @@ if (!recipient.startsWith("0x")) {
       }
     }
   );
-alert("Status: " + response.status);
+const text = await response.text();
+alert("Status: " + response.status + "\n\n" + text);
+return;
   
   const data = await response.json();
 
