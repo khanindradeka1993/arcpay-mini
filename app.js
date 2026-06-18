@@ -250,20 +250,36 @@ if (scanBtn) {
         html5QrCode.stop();
         scannerContainer.style.display = "none";
 
-        scannedAddress = decodedText;
+        try {
+  const request = JSON.parse(decodedText);
+
+  if (request.recipient && request.amount) {
+
+    scannedAddress = request.recipient;
+
+    document.getElementById("recipientText").innerText =
+      "Payment Request: " +
+      request.amount +
+      " USDC";
+
+    alert(
+      "Payment Request Found!\n\n" +
+      "Amount: " + request.amount + " USDC\n\n" +
+      "Tap Send and enter:\n" +
+      request.amount
+    );
+
+    return;
+  }
+} catch (e) {}
+
+scannedAddress = decodedText;
+
 document.getElementById("recipientText").innerText =
-"Recipient: " +
-decodedText.substring(0,6) +
-"..." +
-decodedText.substring(decodedText.length - 4);
-        
-alert(
-  "✅ Recipient address scanned successfully!\n\n" +
-  scannedAddress.substring(0, 6) +
+  "Recipient: " +
+  decodedText.substring(0,6) +
   "..." +
-  scannedAddress.substring(scannedAddress.length - 4) +
-  "\n\nNow tap the Send button to continue."
-);
+  decodedText.substring(decodedText.length - 4);
       },
       (errorMessage) => {
         // Ignore scan errors
