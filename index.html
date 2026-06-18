@@ -68,19 +68,22 @@ button:hover {
 }
     
     .actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-      margin-bottom: 20px;
-    }
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
 
-    .actions button {
-  margin-top: 0;
-  background: #121A2E;
-  border: 1px solid #334155;
-  border-radius: 16px;
-  color: white;
-    }
+.actions button {
+    height: 70px;
+    margin-top: 0;
+    background: #121A2E;
+    border: 1px solid #334155;
+    border-radius: 18px;
+    font-size: 15px;
+    font-weight: 600;
+}
 
     .activity {
       color: #94a3b8;
