@@ -90,7 +90,7 @@ sendBtn.addEventListener("click", async () => {
     let recipient = scannedAddress;
 
 if (!recipient) {
-  recipient = prompt("Enter recipient wallet address or username:");
+  recipient = prompt("Enter recipient wallet address:");
 }
 
 if (!recipient) return;
