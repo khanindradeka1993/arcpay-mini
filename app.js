@@ -12,6 +12,7 @@ const REGISTRY_ADDRESS =
 const REGISTRY_ABI = [
   "function getAddress(string memory username) view returns(address)"
 ];
+const NEYNAR_API_KEY = "AC1122D9-4FA8-45DF-879F-EFE96CA5CDFA";
 
 const USDC_ABI = [
   "function balanceOf(address owner) view returns (uint256)",
@@ -95,22 +96,31 @@ if (!recipient) {
 if (!recipient) return;
 
 if (!recipient.startsWith("0x")) {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-  const registry = new ethers.Contract(
-    REGISTRY_ADDRESS,
-    REGISTRY_ABI,
-    provider
+  const response = await fetch(
+    `https://api.neynar.com/v2/farcaster/user/search?q=${recipient}&limit=1`,
+    {
+      headers: {
+        "api_key": NEYNAR_API_KEY
+      }
+    }
   );
 
-  recipient = await registry.getAddress(recipient);
+  const data = await response.json();
 
-  if (
-    recipient === "0x0000000000000000000000000000000000000000"
-  ) {
-    alert("Username not found");
+  if (!data.result.users.length) {
+    alert("Farcaster username not found");
     return;
   }
+
+  const user = data.result.users[0];
+
+  if (!user.verified_addresses.eth_addresses.length) {
+    alert("No wallet linked to this Farcaster account");
+    return;
+  }
+
+  recipient = user.verified_addresses.eth_addresses[0];
 }
 
     const amount = prompt(
