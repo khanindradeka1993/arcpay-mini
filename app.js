@@ -83,7 +83,44 @@ document.getElementById("qrAddress").innerText = address;
   alert("Unable to fetch wallet address");
 }
 });
-    const sendBtn = document.getElementById("sendBtn");
+const requestBtn = document.getElementById("requestBtn");
+
+requestBtn.addEventListener("click", async () => {
+  const amount = prompt("Enter amount to request (USDC):");
+
+  if (!amount) return;
+
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts"
+  });
+
+  const address = accounts[0];
+
+  const requestData = JSON.stringify({
+    recipient: address,
+    amount: amount
+  });
+
+  const requestContainer =
+    document.getElementById("requestContainer");
+
+  requestContainer.style.display = "block";
+
+  document.getElementById("requestText").innerText =
+    "Requesting " + amount + " USDC";
+
+  document.getElementById("requestQr").innerHTML = "";
+
+  new QRCode(
+    document.getElementById("requestQr"),
+    {
+      text: requestData,
+      width: 300,
+      height: 300
+    }
+  );
+});
+const sendBtn = document.getElementById("sendBtn");
 
 sendBtn.addEventListener("click", async () => {
   try {
