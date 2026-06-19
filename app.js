@@ -254,13 +254,10 @@ if (scanBtn) {
   const request = JSON.parse(decodedText);
 
   if (request.recipient && request.amount) {
-
     scannedAddress = request.recipient;
 
     document.getElementById("recipientText").innerText =
-      "Payment Request: " +
-      request.amount +
-      " USDC";
+      "Payment Request: " + request.amount + " USDC";
 
     alert(
       "Payment Request Found!\n\n" +
@@ -270,6 +267,10 @@ if (scanBtn) {
     );
 
     return;
+  }
+} catch (e) {
+  console.log("Not a payment request QR");
+}
 }
 }
 catch (e) {}
