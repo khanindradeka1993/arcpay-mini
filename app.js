@@ -48,7 +48,7 @@ connectBtn.innerText = "Connected";
 
 } catch (err) {
 console.error(err);
-alert("Wallet connection failed");
+alert(err.message);
 }
 });
 const receiveBtn = document.getElementById("receiveBtn");
