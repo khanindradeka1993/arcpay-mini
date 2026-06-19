@@ -93,23 +93,6 @@ requestBtn.addEventListener("click", async () => {
   const accounts = await window.ethereum.request({
     method: "eth_requestAccounts"
   });
-const splitBillBtn = document.getElementById("splitBillBtn");
-
-splitBillBtn.addEventListener("click", async () => {
-  const billName = prompt("Bill name:");
-
-  if (!billName) return;
-
-  const amount = prompt("Amount (USDC):");
-
-  if (!amount) return;
-
-  alert(
-    "Split Bill Created\n\n" +
-    "Name: " + billName +
-    "\nAmount: " + amount + " USDC"
-  );
-});
   
   const address = accounts[0];
 
@@ -135,6 +118,23 @@ splitBillBtn.addEventListener("click", async () => {
       width: 300,
       height: 300
     }
+  );
+});
+const splitBillBtn = document.getElementById("splitBillBtn");
+
+splitBillBtn.addEventListener("click", async () => {
+  const billName = prompt("Bill name:");
+
+  if (!billName) return;
+
+  const amount = prompt("Amount (USDC):");
+
+  if (!amount) return;
+
+  alert(
+    "Split Bill Created\n\n" +
+    "Name: " + billName +
+    "\nAmount: " + amount + " USDC"
   );
 });
 const sendBtn = document.getElementById("sendBtn");
