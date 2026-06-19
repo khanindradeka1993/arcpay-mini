@@ -3,14 +3,6 @@ const walletText = document.getElementById("walletText");
 const connectBtn = document.getElementById("connectBtn");
 const addressEl = document.getElementById("address");
 const activityEl = document.getElementById("activity");
-console.log("connectBtn", connectBtn);
-console.log("receiveBtn", receiveBtn);
-console.log("requestBtn", requestBtn);
-console.log("sendBtn", sendBtn);
-console.log("copyBtn", copyBtn);
-console.log("refreshBtn", refreshBtn);
-console.log("scanBtn", scanBtn);
-console.log("splitBillBtn", splitBillBtn);
 let scannedAddress = "";
 const USDC_ADDRESS =
 "0x3600000000000000000000000000000000000000";
