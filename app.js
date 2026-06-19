@@ -270,8 +270,9 @@ if (scanBtn) {
     );
 
     return;
-  }
-} catch (e) {}
+}
+}
+catch (e) {}
 
 scannedAddress = decodedText;
 
