@@ -120,23 +120,6 @@ requestBtn.addEventListener("click", async () => {
     }
   );
 });
-const splitBillBtn = document.getElementById("splitBillBtn");
-
-splitBillBtn.addEventListener("click", async () => {
-  const billName = prompt("Bill name:");
-
-  if (!billName) return;
-
-  const amount = prompt("Amount (USDC):");
-
-  if (!amount) return;
-
-  alert(
-    "Split Bill Created\n\n" +
-    "Name: " + billName +
-    "\nAmount: " + amount + " USDC"
-  );
-});
 const sendBtn = document.getElementById("sendBtn");
 
 sendBtn.addEventListener("click", async () => {
@@ -305,5 +288,25 @@ document.getElementById("recipientText").innerText =
       alert("Camera access failed.");
       console.error(err);
     });
+  });
+}
+
+const splitBillBtn = document.getElementById("splitBillBtn");
+
+if (splitBillBtn) {
+  splitBillBtn.addEventListener("click", () => {
+    const billName = prompt("Bill name:");
+
+    if (!billName) return;
+
+    const amount = prompt("Amount (USDC):");
+
+    if (!amount) return;
+
+    alert(
+      "Split Bill Created\n\n" +
+      "Name: " + billName +
+      "\nAmount: " + amount + " USDC"
+    );
   });
 }
