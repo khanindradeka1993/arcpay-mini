@@ -26,16 +26,16 @@ alert("Please install MetaMask or use a Web3 browser");
 return;
 }
 
-const accounts = await window.ethereum.request({  
-  method: "eth_requestAccounts"  
-});  
+const accounts = await window.ethereum.request({
+method: "eth_requestAccounts"
+});
 
-const address = accounts[0];  
+const address = accounts[0];
 
-addressEl.innerText =  
-  address.substring(0, 6) +  
-  "..." +  
-  address.substring(address.length - 4);
+addressEl.innerText =
+address.substring(0, 6) +
+"..." +
+address.substring(address.length - 4);
 
 statusText.innerText = "Connected";
 
@@ -59,8 +59,7 @@ const accounts = await window.ethereum.request({
 method: "eth_requestAccounts"
 });
 
-const address = accounts[0];  
-
+const address = accounts[0];
 
 const qrContainer = document.getElementById("qrContainer");
 
@@ -143,21 +142,21 @@ recipient.substring(recipient.length-4) +
 "\n\nEnter amount:"
 );
 
-if (!amount) return;  
+if (!amount) return;
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);  
-const signer = provider.getSigner();  
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
 
-const usdc = new ethers.Contract(  
-  USDC_ADDRESS,  
-  USDC_ABI,  
-  signer  
-);  
+const usdc = new ethers.Contract(
+USDC_ADDRESS,
+USDC_ABI,
+signer
+);
 
-const tx = await usdc.transfer(  
-  recipient,  
-  ethers.utils.parseUnits(amount, 6)  
-);  
+const tx = await usdc.transfer(
+recipient,
+ethers.utils.parseUnits(amount, 6)
+);
 
 alert("Transaction submitted!");
 
@@ -204,14 +203,14 @@ alert("Please connect wallet first");
 return;
 }
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);  
+const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-const accounts = await provider.send(  
-  "eth_requestAccounts",  
-  []  
-);  
+const accounts = await provider.send(
+"eth_requestAccounts",
+[]
+);
 
-const address = accounts[0];  
+const address = accounts[0];
 
 const usdc = new ethers.Contract(
 
@@ -237,44 +236,44 @@ if (scanBtn) {
 scanBtn.addEventListener("click", () => {
 const scannerContainer = document.getElementById("scannerContainer");
 
-if (scannerContainer.style.display === "block") {  
-  scannerContainer.style.display = "none";  
-  return;  
-}  
+if (scannerContainer.style.display === "block") {
+scannerContainer.style.display = "none";
+return;
+}
 
-scannerContainer.style.display = "block";  
+scannerContainer.style.display = "block";
 
-const html5QrCode = new Html5Qrcode("reader");  
+const html5QrCode = new Html5Qrcode("reader");
 
-html5QrCode.start(  
-  { facingMode: "environment" },  
-  {  
-    fps: 10,  
-    qrbox: 250  
-  },  
-  (decodedText) => {  
-    html5QrCode.stop();  
-    scannerContainer.style.display = "none";  
+html5QrCode.start(
+{ facingMode: "environment" },
+{
+fps: 10,
+qrbox: 250
+},
+(decodedText) => {
+html5QrCode.stop();
+scannerContainer.style.display = "none";
 
-    try {
+try {
 
 const request = JSON.parse(decodedText);
 
 if (request.recipient && request.amount) {
 
-scannedAddress = request.recipient;  
+scannedAddress = request.recipient;
 
-document.getElementById("recipientText").innerText =  
-  "Payment Request: " +  
-  request.amount +  
-  " USDC";  
+document.getElementById("recipientText").innerText =
+"Payment Request: " +
+request.amount +
+" USDC";
 
-alert(  
-  "Payment Request Found!\n\n" +  
-  "Amount: " + request.amount + " USDC\n\n" +  
-  "Tap Send and enter:\n" +  
-  request.amount  
-);  
+alert(
+"Payment Request Found!\n\n" +
+"Amount: " + request.amount + " USDC\n\n" +
+"Tap Send and enter:\n" +
+request.amount
+);
 
 return;
 
@@ -305,16 +304,16 @@ if (splitBillBtn) {
 splitBillBtn.addEventListener("click", () => {
 const billName = prompt("Bill name:");
 
-if (!billName) return;  
+if (!billName) return;
 
-const amount = prompt("Amount (USDC):");  
+const amount = prompt("Amount (USDC):");
 
-if (!amount) return;  
+if (!amount) return;
 
-alert(  
-  "Split Bill Created\n\n" +  
-  "Name: " + billName +  
-  "\nAmount: " + amount + " USDC"  
+alert(
+"Split Bill Created\n\n" +
+"Name: " + billName +
+"\nAmount: " + amount + " USDC"
 );
 
 });
