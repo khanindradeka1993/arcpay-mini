@@ -513,6 +513,7 @@ bills.map(bill =>
 <b>Bill #${bill.id}</b><br>
 ${bill.name}<br>
 ${bill.amount} USDC<br>
+Creator: ${bill.creator}<br>
 Status: ${bill.paid ? "✅ Paid" : "⏳ Unpaid"}
 </div>
 `).join("");
