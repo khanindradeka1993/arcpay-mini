@@ -362,9 +362,11 @@ const billHistory =
 JSON.parse(localStorage.getItem("billHistory") || "[]");
 
 billHistory.unshift({
-  id: billId.toString(),
-  name: billName,
-  amount: amount
+    id: billId.toString(),
+    name: billName,
+    amount: amount,
+    creator: await signer.getAddress(),
+    paid: false
 });
 
 localStorage.setItem(
@@ -411,12 +413,45 @@ await provider.send(
 const signer =
 provider.getSigner();
 
-const splitBillContract =
-new ethers.Contract(
-SPLIT_BILL_ADDRESS,
-SPLIT_BILL_ABI,
-signer
+const bills =
+JSON.parse(localStorage.getItem("billHistory")) || [];
+
+const bill =
+bills.find(
+b => b.id === billId.toString()
 );
+
+if (!bill) {
+    alert("Bill not found");
+    return;
+}
+
+const usdc =
+new ethers.Contract(
+    USDC_ADDRESS,
+    USDC_ABI,
+    signer
+);
+
+const payTx =
+await usdc.transfer(
+    bill.creator,
+    ethers.utils.parseUnits(
+        bill.amount.toString(),
+        6
+    )
+);
+
+alert("Sending USDC...");
+
+await payTx.wait();
+
+const tx =
+await splitBillContract.markPaid(
+    billId
+);
+
+await tx.wait();
 
 const tx =
 await splitBillContract.markPaid(
