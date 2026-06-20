@@ -405,7 +405,13 @@ await provider.send(
 
 const signer =
 provider.getSigner();
-const bill =
+const splitBillContract =
+new ethers.Contract(
+    SPLIT_BILL_ADDRESS,
+    SPLIT_BILL_ABI,
+    signer
+);
+    const bill =
 await splitBillContract.getBill(billId);
 
 const billName = bill[0];
@@ -434,12 +440,6 @@ const usdc =
 new ethers.Contract(
     USDC_ADDRESS,
     USDC_ABI,
-    signer
-);
-const splitBillContract =
-new ethers.Contract(
-    SPLIT_BILL_ADDRESS,
-    SPLIT_BILL_ABI,
     signer
 );
 const payTx =
