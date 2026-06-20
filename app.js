@@ -418,7 +418,6 @@ const billName = bill.name || bill[0];
 const billAmount = bill.totalAmount || bill[1];
 const billCreator = bill.creator || bill[2];
 const billSettled = bill.settled || bill[3];
-alert("Creator: " + billCreator);
     
 if (
 billCreator ===
