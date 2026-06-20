@@ -297,7 +297,8 @@ const SPLIT_BILL_ABI = [
 "function createBill(string _name,uint256 _totalAmount)",
 "function billCount() view returns(uint256)",
 "function markPaid(uint256 _billId)",
-"function hasPaid(uint256,address) view returns(bool)"
+"function hasPaid(uint256,address) view returns(bool)",
+"function getBill(uint256) view returns(string,uint256,address,bool)"
 ];
 
 const splitBillBtn = document.getElementById("splitBillBtn");
