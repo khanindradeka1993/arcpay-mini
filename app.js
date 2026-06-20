@@ -404,7 +404,16 @@ await provider.send(
 
 const signer =
 provider.getSigner();
+const currentAddress =
+await signer.getAddress();
 
+if (
+currentAddress.toLowerCase() ===
+bill.creator.toLowerCase()
+){
+alert("Bill creator cannot pay own bill");
+return;
+}
 const bills =
 JSON.parse(localStorage.getItem("billHistory")) || [];
 
