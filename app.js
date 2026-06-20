@@ -464,7 +464,7 @@ billId +
 " marked as paid"
 );
 const bills =
-JSON.parse(localStorage.getItem("billHistory") || "[]");
+JSON.parse(localStorage.getItem("billHistory")) || [];
 
 const bill = bills.find(
 b => b.id === billId.toString()
