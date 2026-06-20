@@ -472,11 +472,12 @@ if (bills.length === 0) {
 }
 
 billContainer.innerHTML =
-bills.map(bill => `
-<div style="margin-bottom:12px;">
+bills.map(bill =>
+`<div style="margin-bottom:12px;">
 <b>Bill #${bill.id}</b><br>
 ${bill.name}<br>
-${bill.amount} USDC
+${bill.amount} USDC<br>
+Status: ${bill.paid ? "✅ Paid" : "⏳ Unpaid"}
 </div>
 `).join("");
 
