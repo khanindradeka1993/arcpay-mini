@@ -432,7 +432,12 @@ new ethers.Contract(
     USDC_ABI,
     signer
 );
-
+const splitBillContract =
+new ethers.Contract(
+    SPLIT_BILL_ADDRESS,
+    SPLIT_BILL_ABI,
+    signer
+);
 const payTx =
 await usdc.transfer(
     bill.creator,
