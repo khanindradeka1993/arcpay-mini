@@ -386,6 +386,75 @@ alert("Failed: " + err.message);
 
 });
 }
+const payBillBtn =
+document.getElementById("payBillBtn");
+
+if (payBillBtn) {
+
+payBillBtn.addEventListener("click", async () => {
+
+try {
+
+const billId =
+prompt("Enter Bill ID:");
+
+if (!billId) return;
+
+const provider =
+new ethers.providers.Web3Provider(window.ethereum);
+
+await provider.send(
+"eth_requestAccounts",
+[]
+);
+
+const signer =
+provider.getSigner();
+
+const splitBillContract =
+new ethers.Contract(
+SPLIT_BILL_ADDRESS,
+SPLIT_BILL_ABI,
+signer
+);
+
+const tx =
+await splitBillContract.markPaid(
+billId
+);
+
+alert(
+"Submitting payment proof..."
+);
+
+await tx.wait();
+
+alert(
+"✅ Bill #" +
+billId +
+" marked as paid"
+);
+
+activityEl.innerHTML =
+"💸 Paid Bill #" +
+billId +
+"<br>Time: " +
+new Date().toLocaleString();
+
+} catch (err) {
+
+console.error(err);
+
+alert(
+"Failed: " +
+err.message
+);
+
+}
+
+});
+
+}
 function renderBills() {
 
 const billContainer =
