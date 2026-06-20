@@ -298,10 +298,21 @@ console.error(err);
 });
 }
 
+const SPLIT_BILL_ADDRESS =
+"0xdDB09a072fFC24D749b8E4f3e3E77e866c4a09F9";
+
+const SPLIT_BILL_ABI = [
+"function createBill(string _name,uint256 _totalAmount)",
+"function billCount() view returns(uint256)"
+];
+
 const splitBillBtn = document.getElementById("splitBillBtn");
 
 if (splitBillBtn) {
-splitBillBtn.addEventListener("click", () => {
+splitBillBtn.addEventListener("click", async () => {
+
+try {
+
 const billName = prompt("Bill name:");
 
 if (!billName) return;
@@ -310,11 +321,50 @@ const amount = prompt("Amount (USDC):");
 
 if (!amount) return;
 
-alert(
-"Split Bill Created\n\n" +
-"Name: " + billName +
-"\nAmount: " + amount + " USDC"
+const provider =
+new ethers.providers.Web3Provider(window.ethereum);
+
+await provider.send("eth_requestAccounts", []);
+
+const signer = provider.getSigner();
+
+const splitBillContract =
+new ethers.Contract(
+SPLIT_BILL_ADDRESS,
+SPLIT_BILL_ABI,
+signer
 );
+
+const tx = await splitBillContract.createBill(
+billName,
+amount
+);
+
+alert("Creating bill on Arc...\n\nTx submitted");
+
+await tx.wait();
+
+const billId =
+await splitBillContract.billCount();
+
+activityEl.innerHTML =
+"🧾 Split Bill #" +
+billId.toString() +
+"<br>Name: " +
+billName +
+"<br>Amount: " +
+amount +
+" USDC";
+
+alert(
+"✅ Bill saved on-chain!\n\nBill ID: " +
+billId.toString()
+);
+
+} catch (err) {
+console.error(err);
+alert("Failed: " + err.message);
+}
 
 });
 }
