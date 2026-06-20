@@ -384,3 +384,31 @@ alert("Failed: " + err.message);
 
 });
 }
+function renderBills() {
+
+const billContainer =
+document.getElementById("billHistory");
+
+if (!billContainer) return;
+
+const bills =
+JSON.parse(localStorage.getItem("billHistory") || "[]");
+
+if (bills.length === 0) {
+  billContainer.innerHTML =
+  "No bills created yet";
+  return;
+}
+
+billContainer.innerHTML =
+bills.map(bill => `
+<div style="margin-bottom:12px;">
+<b>Bill #${bill.id}</b><br>
+${bill.name}<br>
+${bill.amount} USDC
+</div>
+`).join("");
+
+}
+
+renderBills();
