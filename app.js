@@ -404,16 +404,6 @@ await provider.send(
 
 const signer =
 provider.getSigner();
-const currentAddress =
-await signer.getAddress();
-
-if (
-currentAddress.toLowerCase() ===
-bill.creator.toLowerCase()
-){
-alert("Bill creator cannot pay own bill");
-return;
-}
 const bills =
 JSON.parse(localStorage.getItem("billHistory")) || [];
 
@@ -426,7 +416,16 @@ if (!bill) {
     alert("Bill not found");
     return;
 }
+const currentAddress =
+await signer.getAddress();
 
+if (
+currentAddress.toLowerCase() ===
+bill.creator.toLowerCase()
+){
+alert("Bill creator cannot pay own bill");
+return;
+}
 const usdc =
 new ethers.Contract(
     USDC_ADDRESS,
