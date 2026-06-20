@@ -451,12 +451,6 @@ await splitBillContract.markPaid(
     billId
 );
 
-await tx.wait();
-
-const tx =
-await splitBillContract.markPaid(
-billId
-);
 
 alert(
 "Submitting payment proof..."
