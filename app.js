@@ -434,7 +434,23 @@ alert(
 billId +
 " marked as paid"
 );
+const bills =
+JSON.parse(localStorage.getItem("billHistory") || "[]");
 
+const bill = bills.find(
+b => b.id === billId.toString()
+);
+
+if (bill) {
+    bill.paid = true;
+
+    localStorage.setItem(
+        "billHistory",
+        JSON.stringify(bills)
+    );
+
+    renderBills();
+}
 activityEl.innerHTML =
 "💸 Paid Bill #" +
 billId +
