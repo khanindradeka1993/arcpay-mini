@@ -6,14 +6,6 @@ const activityEl = document.getElementById("activity");
 let scannedAddress = "";
 const USDC_ADDRESS =
 "0x3600000000000000000000000000000000000000";
-const REGISTRY_ADDRESS =
-"0xCF5d59A9d810c0f7FF158128d691fC5Dd0D66a83";
-
-const REGISTRY_ABI = [
-"function getAddress(string memory username) view returns(address)"
-];
-const NEYNAR_API_KEY = "AC1122D9-4FA8-45DF-879F-EFE96CA5CDFA";
-
 const USDC_ABI = [
 "function balanceOf(address owner) view returns (uint256)",
 "function transfer(address to, uint256 amount) returns (bool)",
