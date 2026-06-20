@@ -414,11 +414,12 @@ new ethers.Contract(
     const bill =
 await splitBillContract.getBill(billId);
 
-const billName = bill[0];
-const billAmount = bill[1];
-const billCreator = bill[2];
-const billSettled = bill[3];
-
+const billName = bill.name || bill[0];
+const billAmount = bill.totalAmount || bill[1];
+const billCreator = bill.creator || bill[2];
+const billSettled = bill.settled || bill[3];
+alert("Creator: " + billCreator);
+    
 if (
 billCreator ===
 "0x0000000000000000000000000000000000000000"
@@ -435,7 +436,8 @@ console.log("billCreator:", billCreator);
 if (
   currentAddress &&
   billCreator &&
-  currentAddress.toLowerCase() === billCreator.toLowerCase()
+  currentAddress.toLowerCase() === 
+    billCreator.toLowerCase()
 ) {
   alert("Bill creator cannot pay own bill");
   return;
