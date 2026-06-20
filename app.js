@@ -429,12 +429,16 @@ billCreator ===
 const currentAddress =
 await signer.getAddress();
 
+console.log("currentAddress:", currentAddress);
+console.log("billCreator:", billCreator);
+
 if (
-currentAddress.toLowerCase() ===
-bill.creator.toLowerCase()
-){
-alert("Bill creator cannot pay own bill");
-return;
+  currentAddress &&
+  billCreator &&
+  currentAddress.toLowerCase() === billCreator.toLowerCase()
+) {
+  alert("Bill creator cannot pay own bill");
+  return;
 }
 const usdc =
 new ethers.Contract(
