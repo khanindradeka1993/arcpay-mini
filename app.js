@@ -303,7 +303,9 @@ const SPLIT_BILL_ADDRESS =
 
 const SPLIT_BILL_ABI = [
 "function createBill(string _name,uint256 _totalAmount)",
-"function billCount() view returns(uint256)"
+"function billCount() view returns(uint256)",
+"function markPaid(uint256 _billId)",
+"function hasPaid(uint256,address) view returns(bool)"
 ];
 
 const splitBillBtn = document.getElementById("splitBillBtn");
