@@ -405,15 +405,18 @@ await provider.send(
 
 const signer =
 provider.getSigner();
-const bills =
-JSON.parse(localStorage.getItem("billHistory")) || [];
-
 const bill =
-bills.find(
-b => b.id === billId.toString()
-);
+await splitBillContract.getBill(billId);
 
-if (!bill) {
+const billName = bill[0];
+const billAmount = bill[1];
+const billCreator = bill[2];
+const billSettled = bill[3];
+
+if (
+billCreator ===
+"0x0000000000000000000000000000000000000000"
+) {
     alert("Bill not found");
     return;
 }
@@ -441,9 +444,9 @@ new ethers.Contract(
 );
 const payTx =
 await usdc.transfer(
-    bill.creator,
+    billCreator,
     ethers.utils.parseUnits(
-        bill.amount.toString(),
+        billAmount.toString(),
         6
     )
 );
@@ -470,16 +473,6 @@ billId +
 " marked as paid"
 );
 
-if (bill) {
-    bill.paid = true;
-
-    localStorage.setItem(
-        "billHistory",
-        JSON.stringify(bills)
-    );
-
-    renderBills();
-}
 activityEl.innerHTML =
 "💸 Paid Bill #" +
 billId +
