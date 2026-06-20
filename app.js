@@ -348,13 +348,29 @@ const billId =
 await splitBillContract.billCount();
 
 activityEl.innerHTML =
-"🧾 Split Bill #" +
+"📋 Split Bill #" +
 billId.toString() +
 "<br>Name: " +
 billName +
 "<br>Amount: " +
 amount +
 " USDC";
+
+const billHistory =
+JSON.parse(localStorage.getItem("billHistory") || "[]");
+
+billHistory.unshift({
+  id: billId.toString(),
+  name: billName,
+  amount: amount
+});
+
+localStorage.setItem(
+  "billHistory",
+  JSON.stringify(billHistory)
+);
+
+renderBills();
 
 alert(
 "✅ Bill saved on-chain!\n\nBill ID: " +
