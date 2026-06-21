@@ -4,6 +4,7 @@ const connectBtn = document.getElementById("connectBtn");
 const addressEl = document.getElementById("address");
 const activityEl = document.getElementById("activity");
 let scannedAddress = "";
+let scannedBillId = "";
 const USDC_ADDRESS =
 "0x3600000000000000000000000000000000000000";
 const USDC_ABI = [
@@ -251,6 +252,18 @@ try {
 
 const request = JSON.parse(decodedText);
 
+if (request.type === "bill" && request.billId) {
+  scannedBillId = request.billId;
+
+  alert(
+    "Bill QR Found!\n\nBill ID: " +
+    request.billId +
+    "\n\nTap Pay Bill and press OK."
+  );
+
+  return;
+}
+
 if (request.recipient && request.amount) {
 
 scannedAddress = request.recipient;
@@ -373,7 +386,19 @@ alert(
 "✅ Bill saved on-chain!\n\nBill ID: " +
 billId.toString()
 );
+const billQrData = JSON.stringify({
+  type: "bill",
+  billId: billId.toString()
+});
 
+new QRCode(
+  document.getElementById("qrcode"),
+  {
+    text: billQrData,
+    width: 300,
+    height: 300
+  }
+);
 } catch (err) {
 console.error(err);
 alert("Failed: " + err.message);
