@@ -415,8 +415,11 @@ payBillBtn.addEventListener("click", async () => {
 
 try {
 
-const billId =
-prompt("Enter Bill ID:");
+let billId = scannedBillId;
+
+if (!billId) {
+  billId = prompt("Enter Bill ID:");
+}
 
 if (!billId) return;
 
